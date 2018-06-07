@@ -2,8 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import rootReducer from './reducers'
+import { createStore, applyMiddleware } from 'redux';
+import rootReducer from './reducers';
+import thunk from 'redux-thunk'
 import registerServiceWorker from './registerServiceWorker';
 import 'semantic-ui-css/semantic.min.css';
 import { BrowserRouter as Router, Route } from 'react-router-dom'
@@ -13,7 +14,11 @@ import SignUp from './components/signup/SignUp';
 import Nav from './Nav'
 import PrivateRoute from './PrivateRoute';
 
-const store = createStore(rootReducer);
+
+const store = createStore(
+  rootReducer,
+  applyMiddleware(thunk)
+)
 
 ReactDOM.render(
   <Provider store={store}>
