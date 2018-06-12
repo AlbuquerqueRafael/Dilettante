@@ -1,19 +1,28 @@
 import React, {Component } from 'react';
 import PropTypes from 'prop-types';
-import { login } from '../../actions/userAction'
-import { Button, Checkbox, Form } from 'semantic-ui-react'
+import { signup } from '../../actions/userAction'
+import { Button, Checkbox, Form, Dropdown, Card } from 'semantic-ui-react'
 import { connect } from 'react-redux'
+import userService from '../../services/UserService';
+import './SignUp.css';
 
 class SignUp extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
     this.state = {
       username: '',
       email: '',
       password: '',
+      repeatpassword: '',
+      day: '',
+      month: '',
+      year: ''
     };
+    this.days = userService.getTimeArray(1, 31, false);
+    this.months = userService.getTimeArray(1, 12, false);
+    this.years = userService.getTimeArray(1905, 2007, true);
     this.handleChange = this.handleChange.bind(this);
+    this.handleChangeDropdown = this.handleChangeDropdown.bind(this);
     this.createUser = this.createUser.bind(this);
   }
 
@@ -22,41 +31,102 @@ class SignUp extends Component {
     const value = event.target.value;
 
     this.setState({
-      [name]: value
+      [name]: value,
+    });
+  }
+
+  handleChangeDropdown(event, data) {
+    const name = data.name;
+    const value = data.value;
+
+    this.setState({
+      [name]: value,
     });
   }
 
   createUser() {
-    const user = {"username": this.state.username, "password": this.state.password};
-    this.props.dispatch(login(user));
+    const date = new Date(this.state.year, this.state.month, this.state.day);
+    const user = {"username": this.state.username, 
+                  "password": this.state.password,
+                  "email": this.state.email,
+                  "birthDate": date.toISOString()};
+    
+    this.props.dispatch(signup(user));
   }
 
 
   render() {
     return (
-      <div>
-        <Form onSubmit={this.createUser}>
-          <Form.Field>
-            <input name="username" value={this.state.username.value} onChange={this.handleChange} placeholder='Username' />
-          </Form.Field>
-          <Form.Field>
-            <input name="email"  value={this.state.email.value} onChange={this.handleChange} placeholder='Email' />
-          </Form.Field>
-          <Form.Field>
-            <input name="password" value={this.state.email.password} onChange={this.handleChange} placeholder='Password' />
-          </Form.Field>
-          <Form.Field>
-            <Checkbox label='I agree to the Terms and Conditions' />
-          </Form.Field>
-          <Button type='submit'>Create New Account</Button>
-        </Form> 
+      <div className="SignUp-center-login-card-content">
+        <Card className="SignUp-card-width">
+          <Card.Content header='Signup' />
+          <Card.Content>
+            <Form onSubmit={this.createUser}>
+              <Form.Field>
+                <input name="username" type="text" 
+                       value={this.state.username.value} 
+                       onChange={this.handleChange} 
+                       placeholder='Username' />
+              </Form.Field>
+              <Form.Field>
+                <input name="email" type="text" 
+                       value={this.state.email.value} 
+                       onChange={this.handleChange} 
+                       placeholder='Email' />
+              </Form.Field>
+              <Form.Field>
+                <input name="password" type="password" 
+                       value={this.state.password.value} 
+                       onChange={this.handleChange} 
+                       placeholder='Password' />
+              </Form.Field>
+              <Form.Field>
+                <input name="repeatpassword" type="password" value={this.state.repeatpassword.value} 
+                       onChange={this.handleChange} 
+                       placeholder='Repeat Password' />
+              </Form.Field>
+              <Form.Group inline>
+                <Form.Field >
+                  <label>Day: </label>
+                  <Dropdown className="SignUp-select-width"
+                            value={this.state.day} 
+                            name="day"
+                            placeholder='Day' 
+                            onChange={this.handleChangeDropdown} 
+                            search options={this.days} />
+                </Form.Field>
+                <Form.Field>
+                  <label>Month: </label>
+                  <Dropdown className="SignUp-select-width" 
+                            value={this.state.month} 
+                            name="month"
+                            placeholder='Month' 
+                            onChange={this.handleChangeDropdown} 
+                            search options={this.months} />
+                </Form.Field>
+                <Form.Field >
+                  <label> Year: </label> 
+                  <Dropdown className="SignUp-select-width" 
+                            value={this.state.year} 
+                            name="year"
+                            placeholder='Year' 
+                            onChange={this.handleChangeDropdown} 
+                            search options={this.years} />
+                </Form.Field>
+              </Form.Group>
+              <Form.Field>
+                <Checkbox label='I agree to the Terms and Conditions' />
+              </Form.Field>
+              <Button type='submit'>Create New Account</Button>
+            </Form> 
+          </Card.Content>
+        </Card>
       </div>
     );
   }
 }
 
 SignUp.propTypes = {
-  username: PropTypes.object.isRequired
 };
 
 export default connect()(SignUp);

@@ -10,6 +10,8 @@ export default function userReducer(state = initialState.user, action) {
       return action.responseUser;
     case types.LOGIN_ERROR:
       return action.responseUser;
+    case types.SIGNUP_SUCCESS:
+      return action.responseUser;
     default: 
       return state;
   }
