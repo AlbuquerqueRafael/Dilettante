@@ -3,23 +3,12 @@ class UserService {
 
     const userInfo = mountParamsRequest(user);
 
-    const options = {   
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }
+    const options = { method: 'POST', headers: { 'Content-Type': 'application/json'}}
+    
     return fetch('http://localhost:8080/api/login?' + userInfo, options)
-    .then((result) => result.json())
-    .then((result) => {
-
-        if (result.id) {
-          return result;
-          //dispatch(savedUser( result ));
-        } else {
-          throw(result);
-        }
-
+    .then(handleResponse)
+    .then(user => {
+        return user;
     });
   }
 
@@ -72,6 +61,17 @@ function mountParamsRequest(user) {
               .join('&');
   
   return userInfo;
+}
+
+
+function handleResponse(response) {
+  return response.json().then(data => {
+      if (!response.ok) {
+          throw(data);
+      }
+
+      return data;
+  });
 }
 
 export default UserService;

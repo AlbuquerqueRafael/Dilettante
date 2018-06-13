@@ -1,5 +1,4 @@
 import React, {Component } from 'react';
-import PropTypes from 'prop-types';
 import { signup } from '../../actions/userAction'
 import { Button, Checkbox, Form, Dropdown, Card } from 'semantic-ui-react'
 import { connect } from 'react-redux'
@@ -125,8 +124,5 @@ class SignUp extends Component {
     );
   }
 }
-
-SignUp.propTypes = {
-};
 
 export default connect()(SignUp);

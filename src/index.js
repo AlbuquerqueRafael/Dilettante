@@ -8,7 +8,7 @@ import thunk from 'redux-thunk'
 import registerServiceWorker from './registerServiceWorker';
 import 'semantic-ui-css/semantic.min.css';
 import { BrowserRouter as Router, Route } from 'react-router-dom'
-import App from './components/App';
+import Login from './components/login/Login';
 import HelloWorld from './components/protected/HelloWorld';
 import SignUp from './components/signup/SignUp';
 import Nav from './Nav'
@@ -25,7 +25,7 @@ ReactDOM.render(
     <Router>
       <div>
         <Nav> </Nav>
-        <Route path="/" exact component={App} />
+        <Route path="/" exact component={Login} />
         <Route path="/signup" exact component={SignUp} />
         <PrivateRoute path="/protected" component={HelloWorld} />
       </div>

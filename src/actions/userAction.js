@@ -1,19 +1,21 @@
 import userService from '../services/UserService';
+import storageService from '../services/StorageService';
 import * as types from './actionTypes';
+import {alertActions} from './alertAction';
 
 export function loginSucess(user) {
   return {type: types.LOGIN_SUCCESS, user};
 }
 
 export function login(user) {  
-  return function(dispatch) {
-    return userService.login(user).then(responseUser => {
-      // dispatch(success(user));
-      // history.push('/');
-    }).catch(error => {
-      console.log(error);
+  return dispatch => {
+    return userService.login(user).then(response => {
+      storageService
+    }).catch(error =>{
+      dispatch(alertActions.alertMessage(error));
     });
   };
+
 }
 
 export function signup(user) {  

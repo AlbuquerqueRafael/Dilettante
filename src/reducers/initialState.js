@@ -1,3 +1,6 @@
 export default {  
-  user: []
+  user: [],
+  alert: [
+    {messages: [], visible: false}
+  ]
 }

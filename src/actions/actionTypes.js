@@ -3,3 +3,6 @@ export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_ERROR = 'LOGIN_ERROR';
 
 export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
+
+
+export const ALERT_EXIST = 'ALERT_EXIST';
