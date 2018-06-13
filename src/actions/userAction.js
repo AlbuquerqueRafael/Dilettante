@@ -1,5 +1,4 @@
 import userService from '../services/UserService';
-import storageService from '../services/StorageService';
 import * as types from './actionTypes';
 import {alertActions} from './alertAction';
 
@@ -10,7 +9,7 @@ export function loginSucess(user) {
 export function login(user) {  
   return dispatch => {
     return userService.login(user).then(response => {
-      storageService
+      console.log(response);
     }).catch(error =>{
       dispatch(alertActions.alertMessage(error));
     });
