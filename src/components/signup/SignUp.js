@@ -7,8 +7,6 @@ import Alert from '../alert/Alert';
 
 class SignUp extends Component {
   
-
-
   render() {
     return (
       <div className="SignUp-center-login-card-content">

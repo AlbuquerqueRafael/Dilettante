@@ -26,6 +26,7 @@ export function signup(user) {
       alert("SignUp successful");
       window.location.href = '/';
     }).catch(error => {
+      console.log(error);
       var arrError = error.error.split(";");
       arrError.splice(arrError.length - 1, 1);
 

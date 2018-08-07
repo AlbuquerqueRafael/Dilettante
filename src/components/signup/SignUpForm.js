@@ -11,11 +11,11 @@ class SignUpForm extends Component {
     this.state = {
       username: '',
       email: '',
+      day: '',
       password: '',
       repeatpassword: '',
-      day: '',
       month: '',
-      year: ''
+      year: '',
     };
     this.days = userService.getTimeArray(1, 31, false);
     this.months = userService.getTimeArray(1, 12, false);
@@ -41,16 +41,24 @@ class SignUpForm extends Component {
     this.setState({
       [name]: value,
     });
+   
   }
 
   createUser() {
     const date = new Date(this.state.year, this.state.month, this.state.day);
-    const user = {"username": this.state.username, 
-                  "password": this.state.password,
-                  "email": this.state.email,
-                  "birthDate": date.toISOString()};
     
-    this.props.dispatch(signup(user));
+    if (this.state.year == '' ||  this.state.month == '' || this.state.day == '') {
+      alert("Please, provide a valid birth date");
+    } else {
+      const user = {"username": this.state.username, 
+      "password": this.state.password,
+      "email": this.state.email,
+      "birthDate": date.toISOString()};
+
+      this.props.dispatch(signup(user));
+    }
+
+
   }
 
   render() {
@@ -109,9 +117,6 @@ class SignUpForm extends Component {
                       search options={this.years} />
           </Form.Field>
         </Form.Group>
-        <Form.Field>
-          <Checkbox label='I agree to the Terms and Conditions' />
-        </Form.Field>
         <Button type='submit'>Create New Account</Button>
       </Form> 
     </Card.Content>
