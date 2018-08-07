@@ -9,9 +9,12 @@ export function loginSucess(user) {
 export function login(user) {  
   return dispatch => {
     return userService.login(user).then(response => {
-      console.log(response);
+      alert("Login successful");
     }).catch(error =>{
-      dispatch(alertActions.alertMessage(error));
+      var arrError = [];
+      arrError.push(error.error);
+
+      dispatch(alertActions.alertMessage(arrError));
     });
   };
 
@@ -20,12 +23,13 @@ export function login(user) {
 export function signup(user) {  
   return function(dispatch) {
     return userService.signup(user).then(responseUser => {
-      dispatch({
-        type: types.SIGNUP_SUCCESS,
-        responseUser
-      })
+      alert("SignUp successful");
+      window.location.href = '/';
     }).catch(error => {
-      throw(error);
+      var arrError = error.error.split(";");
+      arrError.splice(arrError.length - 1, 1);
+
+      dispatch(alertActions.alertMessage(arrError));
     });
   };
 }

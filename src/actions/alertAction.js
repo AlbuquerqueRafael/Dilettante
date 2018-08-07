@@ -5,7 +5,7 @@ export const alertActions = {
 };
 
 function alertMessage(msg) {
-  const messages = [];
-  messages.push(msg.error);
+  const messages =  msg;
+
   return { type: types.ALERT_EXIST, messages};
 }

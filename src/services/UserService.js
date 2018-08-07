@@ -1,11 +1,15 @@
 class UserService {
   static login(user) {
 
-    const userInfo = mountParamsRequest(user);
-
-    const options = { method: 'POST', headers: { 'Content-Type': 'application/json'}}
+    const options = {   
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(user)
+    }
     
-    return fetch('http://localhost:8080/api/login?' + userInfo, options)
+    return fetch('http://localhost:8080/api/user/login', options)
     .then(handleResponse)
     .then(user => {
         return user;
@@ -20,11 +24,11 @@ class UserService {
       },
       body: JSON.stringify(user)
     }
-    return fetch('http://localhost:8080/api/signup', options).then(response => {
-      console.log(response);
-      return response.json();
-    }).catch(error => {
-      return error;
+
+    return fetch('http://localhost:8080/api/user/signup', options)
+    .then(handleResponse)
+    .then(user => {
+        return user;
     });
   }
 
@@ -53,16 +57,6 @@ class UserService {
     return daysArray;
   }
 }
-
-function mountParamsRequest(user) {
-  var esc = encodeURIComponent;
-  var userInfo = Object.keys(user)
-              .map(k => esc(k) + '=' + esc(user[k]))
-              .join('&');
-  
-  return userInfo;
-}
-
 
 function handleResponse(response) {
   return response.json().then(data => {
